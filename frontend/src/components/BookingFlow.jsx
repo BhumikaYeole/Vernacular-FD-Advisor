@@ -3,6 +3,8 @@ import axios from "axios";
 import translations from "../utils/translations";
 import FDCompareCharts from "./FDCompareCharts";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 const TYPE_BADGE = {
   "Public": { bg: "#dbeafe", color: "#1e40af", label: "Public" },
   "Private": { bg: "#fef3c7", color: "#92400e", label: "Private" },
@@ -41,7 +43,7 @@ function BookingFlow({ lang, setShowBooking, darkMode }) {
     setLoading(true);
     try {
       const res = await axios.get(
-        `http://localhost:5000/fd-options?tenure=${tenure}&risk=${risk}&lang=${lang}`
+        `${API_BASE_URL}/fd-options?tenure=${tenure}&risk=${risk}&lang=${lang}`
       );
       setFds(res.data.all_options);
       setBest(res.data.best_option);
@@ -55,7 +57,7 @@ function BookingFlow({ lang, setShowBooking, darkMode }) {
   };
 
   const calculateReturns = async (fd) => {
-    const res = await axios.post("http://localhost:5000/calculate", {
+    const res = await axios.post(`${API_BASE_URL}/calculate`, {
       amount,
       rate: fd.rate,
       time: tenure / 12,

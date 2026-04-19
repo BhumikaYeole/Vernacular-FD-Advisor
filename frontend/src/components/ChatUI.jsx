@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
+
 /*  helpers  */
 const LANG_SPEECH_MAP = { en: "en-IN", hi: "hi-IN", mr: "mr-IN" };
 
@@ -378,7 +381,7 @@ function ChatUI({ lang, setShowBooking, darkMode }) {
     setIsLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/chat", {
+      const res = await axios.post(`${API_BASE_URL}/chat`, {
         message: trimmed,
         lang,
       });
